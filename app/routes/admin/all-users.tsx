@@ -1,8 +1,12 @@
+import Header from 'components/Header'
 import React from 'react'
 
 const AllUsers = () => {
   return (
-    <div>Users Table</div>
+    <main className='dashboard wrapper'>
+      <Header title='Users Page' description='Manage users in real time'/>
+      All Users Page Content
+    </main>
   )
 }
 

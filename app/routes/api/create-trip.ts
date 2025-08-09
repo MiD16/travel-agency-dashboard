@@ -5,6 +5,8 @@ import {appwriteConfig, database} from "~/appwrite/client";
 import {ID} from "appwrite";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+    console.log('>:p');
+    
     const {
         country,
         numberOfDays,
@@ -14,6 +16,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         groupType,
         userId,
     } = await request.json();
+
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
     const unsplashApiKey = process.env.UNSPLASH_ACCESS_KEY!;
@@ -69,8 +72,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         const textResult = await genAI
             .getGenerativeModel({ model: 'gemini-2.0-flash' })
             .generateContent([prompt])
-
+        console.log('Text Result: ' + textResult.response.text);
+        
         const trip = parseMarkdownToJson(textResult.response.text());
+        console.log('Trip: ' + trip);
 
         const imageResponse = await fetch(
             `https://api.unsplash.com/search/photos?query=${country} ${interests} ${travelStyle}&client_id=${unsplashApiKey}`
@@ -78,6 +83,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
         const imageUrls = (await imageResponse.json()).results.slice(0, 3)
             .map((result: any) => result.urls?.regular || null);
+        console.log('Image URLs: ' + imageUrls);
 
         const result = await database.createDocument(
             appwriteConfig.databaseId,
@@ -90,9 +96,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
                 userId,
             }
         )
+        console.log('Result: ' + result.$id);
 
         return data({ id: result.$id })
     } catch (e) {
         console.error('Error generating travel plan: ', e);
+        throw e;
     }
 }

@@ -86,7 +86,9 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
     }
 
     try {
-        const response = await fetch('/api/create-trip', {
+        console.log(':p');
+        
+        const response = await fetch('api/create-trip', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -96,7 +98,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
                 interests: formData.interest,
                 budget: formData.budget,
                 groupType: formData.groupType,
-                userId: user.$id,
+                userId: user.$id.toString(),
             })
         });
 

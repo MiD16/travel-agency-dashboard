@@ -9,7 +9,6 @@ import {
   ChipListComponent,
   ChipsDirective,
 } from "@syncfusion/ej2-react-buttons";
-import { allTrips } from "~/constants";
 import TripCard from "components/TripCard";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
@@ -19,17 +18,18 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     throw new Error("Trip ID is required");
   }
 
-  const trips = await getAllTrips(4, 0);
-  const trip = await getTripByID(tripId);
+  const [trip, trips] = await Promise.all([
+    getTripByID(tripId),
+    getAllTrips(4, 0),
+  ]);
 
-  console.log('Details: ' + trips.allTrips);
-  
+  console.log("Details: " + trips.allTrips);
 
   return {
     trip: trip,
     allTrips: trips.allTrips.map(({ $id, tripDetail, imageUrls }) => ({
       id: $id,
-      tripDetails: parseTripData(tripDetail),
+      ...parseTripData(tripDetail),
       imageUrls: imageUrls ?? [],
     })),
   };
@@ -54,8 +54,6 @@ const TripDetail = ({ loaderData }: Route.ComponentProps) => {
   } = tripData || {};
 
   const allTrips = loaderData?.allTrips as Trip[] | [];
-  console.log('All Trips: ' + JSON.stringify(allTrips));
-  
 
   const pillItems = [
     { text: travelStyle, bg: "!bg-pink-50 !text-pink-500" },
@@ -203,34 +201,33 @@ const TripDetail = ({ loaderData }: Route.ComponentProps) => {
             </div>
           </section>
         ))}
+      </section>
+      <section className="flex flex-col gap-6">
+        <h2 className="p-24-semibold text-dark-100">Popular Trips</h2>
 
-        <section className="flex flex-col gap-6">
-          <h2 className="p-24-semibold text-dark-100">Popular Trips</h2>
-
-          <div className="trip-grid">
-            {allTrips.map(
-              ({
-                id,
-                name,
-                imageUrls,
-                itinerary,
-                interests,
-                travelStyle,
-                estimatedPrice,
-              }) => (
-                <TripCard
-                  key={id}
-                  id={id}
-                  name={name}
-                  location={itinerary?.[0].location ?? ""}
-                  imageUrl={imageUrls[0]}
-                  tags={[interests, travelStyle]}
-                  price={estimatedPrice}
-                />
-              )
-            )}
-          </div>
-        </section>
+        <div className="trip-grid">
+          {allTrips.map(
+            ({
+              id,
+              name,
+              imageUrls,
+              itinerary,
+              interests,
+              travelStyle,
+              estimatedPrice,
+            }) => (
+              <TripCard
+                key={id}
+                id={id}
+                name={name}
+                location={itinerary?.[0].location ?? ""}
+                imageUrl={imageUrls[0]}
+                tags={[interests, travelStyle]}
+                price={estimatedPrice}
+              />
+            )
+          )}
+        </div>
       </section>
     </main>
   );

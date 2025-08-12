@@ -85,9 +85,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
         return;
     }
 
-    try {
-        console.log(':p');
-        
+    try {        
         const response = await fetch('api/create-trip', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

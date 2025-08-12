@@ -5,8 +5,6 @@ import {appwriteConfig, database} from "~/appwrite/client";
 import {ID} from "appwrite";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-    console.log('>:p');
-    
     const {
         country,
         numberOfDays,

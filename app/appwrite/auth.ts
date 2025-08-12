@@ -65,7 +65,7 @@ export const loginWithGoogle = async () => {
   try {
     account.createOAuth2Session(
       OAuthProvider.Google,
-      `${window.location.origin}/`,
+      `${window.location.origin}/dashboard`,
       `${window.location.origin}/404`
     );
   } catch (error) {
@@ -75,9 +75,7 @@ export const loginWithGoogle = async () => {
 
 export const logoutUser = async () => {
   try {
-    console.log(':)');
     await account.deleteSession("current");
-    console.log(':/');
   } catch (error) {
     console.error("Error during logout:", error);
   }

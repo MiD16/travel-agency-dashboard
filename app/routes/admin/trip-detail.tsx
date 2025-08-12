@@ -20,7 +20,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
   const [trip, trips] = await Promise.all([
     getTripByID(tripId),
-    getAllTrips(4, 0),
+    getAllTrips(4, 1),
   ]);
 
   console.log("Details: " + trips.allTrips);

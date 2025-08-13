@@ -13,7 +13,8 @@ export const appwriteConfig = {
 const client = new Client()
 .setEndpoint(appwriteConfig.endpointUrl)
 .setProject(appwriteConfig.projectId)
-.setDevKey(appwriteConfig.devKey);
+// .setDevKey(appwriteConfig.devKey)
+;
 
 const account = new Account(client);
 const database = new Databases(client);

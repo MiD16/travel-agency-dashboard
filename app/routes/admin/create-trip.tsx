@@ -107,7 +107,7 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
             console.error('Failed to generate the trip');
         }
     } catch (error) {
-        console.error(error);
+        console.error('handleSubmit: ' + error);
     } finally {
         setLoading(false);
     }

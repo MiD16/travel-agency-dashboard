@@ -7,9 +7,9 @@ export async function clientLoader() {
     try {
         const user = await account.get();
 
-        if(user.$id) return redirect('/');
+        if(user.$id) return redirect('/dashboard');
     } catch (error) {
-        console.error(error);
+        console.error('sign-in\'s clientLoader: ' + error);
     }
 }
 

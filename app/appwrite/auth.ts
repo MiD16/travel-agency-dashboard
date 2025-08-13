@@ -68,6 +68,7 @@ export const loginWithGoogle = async () => {
       `${window.location.origin}/dashboard`,
       `${window.location.origin}/404`
     );
+    setTimeout(() => {}, 1000);
   } catch (error) {
     console.error("Error during OAuth2 session creation:", error);
   }

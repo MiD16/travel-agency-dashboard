@@ -11,7 +11,7 @@ export const getExistingUser = async (id: string) => {
     );
     return total > 0 ? documents[0] : null;
   } catch (error) {
-    console.error("Error fetching user:", error);
+    console.error("Error fetching existing user:", error);
     return null;
   }
 };
